@@ -4,22 +4,38 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 const prisma = new PrismaClient();
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  if (req.method === 'POST') {
+  if (req.method === 'GET') {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    const tomorrow = new Date(today);
+    tomorrow.setDate(tomorrow.getDate() + 1);
+
+    const foodEntries = await prisma.foodEntry.findMany({
+      where: {
+        dateCreated: {
+          gte: today,
+          lt: tomorrow,
+        },
+      },
+    });
+    return res.json(foodEntries);
+  } else if (req.method === 'POST') {
+    // Create a new food entry
     const { foodName, calories, protein } = req.body;
     const result = await prisma.foodEntry.create({
       data: {
         foodName,
-        calories: Number(calories),
-        protein: Number(protein),
-      }, // Add a comma here
+        calories,
+        protein,
+        // dateCreated is automatically set to now()
+      },
     });
-    console.log('Food entry created');
     return res.json(result);
-  } else if (req.method === 'GET') {
-    const foodEntries = await prisma.foodEntry.findMany();
-    return res.json(foodEntries);
   }
+  
 
+  // Method Not Allowed handling
   res.setHeader('Allow', ['GET', 'POST']);
   res.status(405).end(`Method ${req.method} Not Allowed`);
 }

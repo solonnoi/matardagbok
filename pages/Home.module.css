@@ -1,0 +1,36 @@
+.formContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+  
+  .form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 40px;
+    background: rgb(var(--card-rgb));
+    border-radius: var(--border-radius);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .input {
+    padding: 10px;
+    border-radius: var(--border-radius);
+    border: 1px solid rgb(var(--callout-border-rgb));
+  }
+  
+  .button {
+    padding: 10px;
+    border: none;
+    border-radius: var(--border-radius);
+    background-color: rgba(var(--foreground-rgb), 0.1);
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .button:hover {
+    background-color: rgba(var(--foreground-rgb), 0.2);
+  }
+  
