@@ -14,9 +14,10 @@ datasource db {
 }
 
 model FoodEntry {
-  id       Int      @id @default(autoincrement())
-  date     DateTime @default(now())
-  foodName String
-  calories Int
-  protein  Int
+  id          Int      @id @default(autoincrement())
+  foodName    String
+  calories    Int
+  protein     Int
+  dateCreated DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 }
