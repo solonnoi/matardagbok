@@ -19,6 +19,9 @@ const Home: React.FC = () => {
     setProtein(0);
   }
 
+  
+  
+
   return (
     <div className={styles.formContainer}>
       <form onSubmit={handleSubmit} className={styles.form}>
