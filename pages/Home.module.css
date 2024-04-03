@@ -1,8 +1,10 @@
 .formContainer {
     display: flex;
-    justify-content: center;
+    flex-direction: column;
     align-items: center;
-    height: 100vh;
+    justify-content: center;
+    min-height: 100vh; /* Ensure it takes at least the full viewport height */
+    padding-top: 20px; /* Add some padding at the top */
   }
   
   .form {
@@ -19,6 +21,8 @@
     padding: 10px;
     border-radius: var(--border-radius);
     border: 1px solid rgb(var(--callout-border-rgb));
+    justify-content: center;
+
   }
   
   .button {
@@ -32,5 +36,31 @@
   
   .button:hover {
     background-color: rgba(var(--foreground-rgb), 0.2);
+  }
+  
+  .entriesSection ul {
+    list-style: none; /* Remove default list styling */
+    padding: 0;
+    margin: 20px 0;
+    width: 100%; /* Adjust width as needed, or keep it responsive */
+    max-width: 600px; /* Set a max-width for larger screens */
+  }
+  
+  .entriesSection li {
+    background-color: #f9f9f9; /* Light background for each entry */
+    padding: 15px;
+    margin-bottom: 10px; /* Space between entries */
+    border-radius: 8px; /* Rounded corners */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    transition: transform 0.2s ease, box-shadow 0.2s ease; /* Smooth transition for hover effect */
+  }
+  
+  .entriesSection li:hover {
+    transform: translateY(-2px); /* Slightly raise the entry on hover */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); /* Enhance shadow on hover */
+  }
+  
+  .entriesSection li:last-child {
+    margin-bottom: 0; /* Remove bottom margin for the last entry */
   }
   

@@ -1,10 +1,25 @@
-import { useState, FormEvent } from 'react';
+import { useState, FormEvent, useEffect } from 'react';
 import styles from './Home.module.css'; // Import your CSS module here
+import getFoods from './api/foodEntries';
+import postFoods from './api/foodEntries';
 
 const Home: React.FC = () => {
   const [foodName, setFoodName] = useState<string>('');
   const [calories, setCalories] = useState<number>(0);
   const [protein, setProtein] = useState<number>(0);
+  const [foods, setFoods] = useState<Array<any>>([]);
+  const [selectedDate, setSelectedDate] = useState<string>(() => new Date().toISOString().split('T')[0]);
+  const [availableDates, setAvailableDates] = useState<Array<string>>([]);
+
+  useEffect(() => {
+    fetchDatesWithEntries();
+  }, []);
+
+  async function fetchDatesWithEntries() {
+    const response = await fetch('/api/foodEntries');
+    const data = await response.json();
+    setAvailableDates(data);
+  }
 
   async function handleSubmit(e: FormEvent) {
     e.preventDefault();
@@ -13,14 +28,22 @@ const Home: React.FC = () => {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ foodName, calories, protein }),
     });
-    // Reset form fields
     setFoodName('');
     setCalories(0);
     setProtein(0);
+    fetchDatesWithEntries(); // Refresh dates with entries
+    getFoodEntries(selectedDate); // Refresh entries for the current date
   }
 
-  
-  
+  async function getFoodEntries(date: string) {
+    const response = await fetch(`/api/foodEntries?date=${date}`);
+    const data = await response.json();
+    setFoods(data);
+  }
+
+  useEffect(() => {
+    getFoodEntries(selectedDate);
+  }, [selectedDate]);
 
   return (
     <div className={styles.formContainer}>
@@ -51,6 +74,23 @@ const Home: React.FC = () => {
         />
         <button type="submit" className={styles.button}>Add Entry</button>
       </form>
+      <div className={styles.entriesSection}>
+  <h2>Food Entries</h2>
+  <input
+    type="date"
+    value={selectedDate}
+    onChange={(e) => setSelectedDate(e.target.value)}
+    className={styles.input}
+  />
+  <ul>
+    {foods.map((food) => (
+      <li key={food.id}>
+        {food.foodName} - {food.calories} calories, {food.protein}g protein
+      </li>
+    ))}
+  </ul>
+</div>
+
     </div>
   );
 };
