@@ -2,6 +2,8 @@ import { useState, FormEvent, useEffect } from 'react';
 import styles from './Home.module.css'; // Import your CSS module here
 import getFoods from './api/foodEntries';
 import postFoods from './api/foodEntries';
+import { sumNutrientsByDay, FoodEntry } from '../utils/nutritionCalculations';
+
 
 const Home: React.FC = () => {
   const [foodName, setFoodName] = useState<string>('');
@@ -10,16 +12,30 @@ const Home: React.FC = () => {
   const [foods, setFoods] = useState<Array<any>>([]);
   const [selectedDate, setSelectedDate] = useState<string>(() => new Date().toISOString().split('T')[0]);
   const [availableDates, setAvailableDates] = useState<Array<string>>([]);
+  const [sumOfKcal, setSumOfKcal] = useState<number>(0);
+  const [sumOfProtein, setSumOfProtein] = useState<number>(0);
+
 
   useEffect(() => {
     fetchDatesWithEntries();
-  }, []);
+    if (foods.length > 0) {
+      calculateTotals();
+    }
+  }, [foods]);
+
+  async function calculateTotals() {
+    const totals = sumNutrientsByDay(foods)
+    
+    setSumOfKcal(totals[selectedDate].totalCalories);
+    setSumOfProtein(totals[selectedDate].totalProtein);
+  }
 
   async function fetchDatesWithEntries() {
     const response = await fetch('/api/foodEntries');
     const data = await response.json();
     setAvailableDates(data);
   }
+ 
 
   async function handleSubmit(e: FormEvent) {
     e.preventDefault();
@@ -89,7 +105,14 @@ const Home: React.FC = () => {
       </li>
     ))}
   </ul>
+  <div>
+          <strong>Total Calories:</strong> {sumOfKcal} kcal
+          <br/>
+          <strong>Total Protein:</strong> {sumOfProtein} g
+        </div>
+
 </div>
+
 
     </div>
   );
