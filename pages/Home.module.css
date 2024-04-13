@@ -7,6 +7,8 @@
     padding-top: 20px; /* Add some padding at the top */
   }
   
+
+  
   .form {
     display: flex;
     flex-direction: column;
@@ -44,23 +46,34 @@
     margin: 20px 0;
     width: 100%; /* Adjust width as needed, or keep it responsive */
     max-width: 600px; /* Set a max-width for larger screens */
-  }
-  
-  .entriesSection li {
+}
+
+.entriesSection li {
+    /* Default light background set for light mode */
     background-color: #f9f9f9; /* Light background for each entry */
     padding: 15px;
     margin-bottom: 10px; /* Space between entries */
     border-radius: 8px; /* Rounded corners */
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow */
     transition: transform 0.2s ease, box-shadow 0.2s ease; /* Smooth transition for hover effect */
-  }
-  
-  .entriesSection li:hover {
+}
+
+/* Dark mode adjustments */
+@media (prefers-color-scheme: dark) {
+    .entriesSection li {
+        background-color: #333; /* Darker background for each entry */
+        color: #fff; /* Light text color for better readability */
+        box-shadow: 0 2px 4px rgba(255, 255, 255, 0.1); /* Lighter shadow for dark mode */
+    }
+}
+
+.entriesSection li:hover {
     transform: translateY(-2px); /* Slightly raise the entry on hover */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); /* Enhance shadow on hover */
-  }
-  
-  .entriesSection li:last-child {
+}
+
+.entriesSection li:last-child {
     margin-bottom: 0; /* Remove bottom margin for the last entry */
-  }
+}
+
   

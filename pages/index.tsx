@@ -18,14 +18,18 @@ const Home: React.FC = () => {
 
   useEffect(() => {
     fetchDatesWithEntries();
-    if (foods.length > 0) {
+    if (foods.length!) {
       calculateTotals();
+    }
+    else {
+      setSumOfKcal(0);
+      setSumOfProtein(0);
     }
   }, [foods]);
 
   async function calculateTotals() {
     const totals = sumNutrientsByDay(foods)
-    
+
     setSumOfKcal(totals[selectedDate].totalCalories);
     setSumOfProtein(totals[selectedDate].totalProtein);
   }
@@ -40,7 +44,7 @@ const Home: React.FC = () => {
 
   async function handleSubmit(e: FormEvent) {
     e.preventDefault();
-    await fetch('/api/foodEntries', {
+    await fetch('/api/foodEntries/getFoods', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ foodName, calories, protein }),
