@@ -32,6 +32,7 @@ const Home: React.FC = () => {
 
   async function fetchDatesWithEntries() {
     const response = await fetch('/api/foodEntries');
+
     const data = await response.json();
     setAvailableDates(data);
   }

@@ -55,3 +55,15 @@ async function postFoods(req: NextApiRequest, res: NextApiResponse) {
     res.status(400).json({ error: "There was a problem creating the food entry." });
   }
 }
+
+async function removeFood(req:NextApiRequest, res: NextApiResponse) {
+  const { id } = req.query;
+  try {
+    const result = await prisma.foodEntry.delete({
+      where: { id: Number(id) },
+    });
+    res.json(result);
+  } catch (error) {
+    res.status(400).json({ error: "There was a problem deleting the food entry." });
+  } 
+}
