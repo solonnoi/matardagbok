@@ -44,7 +44,7 @@ const Home: React.FC = () => {
 
   async function handleSubmit(e: FormEvent) {
     e.preventDefault();
-    await fetch('/api/foodEntries/getFoods', {
+    await fetch('/api/foodEntries', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ foodName, calories, protein }),
